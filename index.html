@@ -21,13 +21,13 @@
             
             <div class="mt-4 flex flex-col gap-2">
                 <button onclick="loadForm()" class="w-full bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 focus:outline-none focus:bg-blue-700 transition duration-200">Cargar Formulario</button>
-                <button onclick="cancelForm()" class="w-full bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 focus:outline-none focus:bg-red-700 transition duration-200">Cancelar</button>
+                <button onclick="cancelForm()" class="w-full bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 focus:outline-none focus:bg-red-700 transition duration-200">Cancelar</button>                
             </div>
         </div>
 
         <!-- Contenedor para mostrar el formulario -->
         <div id="formContainer" class="hidden mt-6 space-y-4 overflow-y-auto max-h-[60vh]">
-            <!-- Aquí se agregará el formulario dinámicamente -->
+            <!-- Se agrega el formulario dinámicamente -->
         </div>
 
         <!-- Botón para enviar los datos -->
@@ -60,12 +60,20 @@
             "002": {
                 name: "Impresoras",
                 fields: [
-                    { name: "tipo", label: "Tipo", type: "text" },
-                    { name: "marca", label: "Marca", type: "text" },
-                    { name: "conectividad", label: "Conectividad", type: "text" },
-                    { name: "color", label: "Color o Blanco y Negro", type: "text" }
+                    { name: "imp-modelo", label: "Modelo", type: "text" },
+                    { name: "imp-tecnologia", label: "Tecnología de impresión", type: "text" },
+                    { name: "imp-resolucion", label: "Resolución de impresión", type: "text" },
+                    { name: "imp-cartucho", label: "Tóner / Cartucho compatible", type: "text" },
+                    { name: "imp-SO", label: "Sistema Operativo compatible", type: "text" },
+                    { name: "imp-velocidad", label: "Velocidad de impresión", type: "text" },
+                    { name: "imp-conectividad", label: "Conectividad", type: "text" },
+                    { name: "imp-tamano", label: "Tamaño de hojas", type: "text" },
+                    { name: "imp-alimentacion", label: "Alimentación", type: "text" },
+                    { name: "imp-dimensiones", label: "Dimensiones", type: "text" },
+                    { name: "imp-peso", label: "Peso", type: "text" }
                 ]
             }
+            //Agregar a partir de acá 
         };
 
         function loadForm() {
@@ -134,14 +142,9 @@
         }
 
         function clearForm() {
-            // Limpiar el selector de referencia
             document.getElementById("reference").value = "";
-
-            // Limpiar los campos de entrada dentro del contenedor de formulario
-            document.querySelectorAll("#formContainer input").forEach((input) => {
-                input.value = "";
-            });
         }
+
 
 
         function cancelForm() {
