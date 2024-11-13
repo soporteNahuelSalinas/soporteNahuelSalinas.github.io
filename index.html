@@ -6,22 +6,34 @@
     <title>Landing Page</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body class="bg-gray-100 flex items-center justify-center h-screen">
+<body class="bg-gray-800 text-white flex items-center justify-center min-h-screen">
 
     <!-- Contenedor principal -->
-    <div class="w-full max-w-md p-8 space-y-6 bg-white shadow-lg rounded-lg">
+    <div class="w-full max-w-lg p-8 space-y-6 bg-gray-900 shadow-xl rounded-lg">
+
         <!-- Buscador -->
         <div>
-            <label for="reference" class="block text-lg font-medium text-gray-700">Buscar Referencia</label>
-            <input type="text" id="reference" placeholder="Ej: 001" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-            <button onclick="loadForm()" class="w-full mt-4 bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">Cargar Formulario</button>
+            <select id="categoria" class="mt-1 block w-full px-4 py-3 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-gray-800 text-white">
+                <option value="" selected>Seleccione una categoría</option>
+                <option value="001">Notebook</option>
+                <option value="002">Impresora</option>
+            </select>
+            
+            <div class="mt-4 flex flex-col gap-2">
+                <button onclick="loadForm()" class="w-full bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 focus:outline-none focus:bg-blue-700 transition duration-200">Cargar Formulario</button>
+                <button onclick="cancelForm()" class="w-full bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 focus:outline-none focus:bg-red-700 transition duration-200">Cancelar</button>
+            </div>
         </div>
 
         <!-- Contenedor para mostrar el formulario -->
-        <div id="formContainer" class="hidden mt-6 space-y-4"></div>
+        <div id="formContainer" class="hidden mt-6 space-y-4 overflow-y-auto max-h-[60vh]">
+            <!-- Aquí se agregará el formulario dinámicamente -->
+        </div>
 
-        <!-- Botón para enviar datos -->
-        <button onclick="sendDataToSheet()" class="w-full mt-4 bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 focus:outline-none focus:bg-green-600">Enviar Datos</button>
+        <!-- Botón para enviar los datos -->
+        <div id="sendButtonContainer" class="hidden mt-6">
+            <button onclick="sendDataToSheet()" class="w-full bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 focus:outline-none focus:bg-green-700 transition duration-200">Enviar Datos</button>
+        </div>
     </div>
 
     <!-- Script JavaScript -->
@@ -40,10 +52,9 @@
                     { name: "puertos", label: "Puertos", type: "text" },
                     { name: "bateria", label: "Batería", type: "text" },
                     { name: "dimensiones", label: "Dimensiones", type: "text" },
-                    { name: "Peso", label: "peso", type: "text" },
+                    { name: "Peso", label: "Peso", type: "text" },
                     { name: "SO", label: "Sistema Operativo", type: "text" },
                     { name: "garantia", label: "Garantía", type: "text" }
-                    
                 ]
             },
             "002": {
@@ -55,12 +66,12 @@
                     { name: "color", label: "Color o Blanco y Negro", type: "text" }
                 ]
             }
-            // Agrega más categorías según sea necesario
         };
 
         function loadForm() {
-            const reference = document.getElementById("reference").value;
+            const reference = document.getElementById("categoria").value;
             const formContainer = document.getElementById("formContainer");
+            const sendButtonContainer = document.getElementById("sendButtonContainer");
 
             // Limpiar el contenedor de formulario anterior
             formContainer.innerHTML = "";
@@ -71,24 +82,42 @@
                 
                 // Crear título de la categoría
                 const title = document.createElement("h2");
-                title.className = "text-xl font-bold text-gray-800";
+                title.className = "text-xl font-semibold text-gray-300";
                 title.innerText = `Formulario para ${category.name}`;
                 formContainer.appendChild(title);
+
+                // Agregar campo para el número de referencia
+                const referenceWrapper = document.createElement("div");
+                referenceWrapper.className = "mt-4 flex flex-col md:flex-row lg:flex-row xl:flex-row";
+
+                const label = document.createElement("label");
+                label.className = "block text-sm font-medium text-gray-300 w-full md:w-1/3 lg:w-1/4 xl:w-1/5";
+                label.innerText = "Referencia";
+                referenceWrapper.appendChild(label);
+
+                const input = document.createElement("input");
+                input.type = "text";
+                input.id = "referencia";
+                input.name = "referencia";
+                input.placeholder = "Referencia del producto";
+                input.className = "mt-1 block w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm md:w-2/3 lg:w-3/4 xl:w-4/5 bg-gray-800 text-white";
+                referenceWrapper.appendChild(input);
+                formContainer.appendChild(referenceWrapper);
 
                 // Crear campos específicos del formulario
                 category.fields.forEach(field => {
                     const fieldWrapper = document.createElement("div");
-                    fieldWrapper.className = "mt-4";
-                    
+                    fieldWrapper.className = "mt-4 flex flex-col md:flex-row lg:flex-row xl:flex-row";
+
                     const label = document.createElement("label");
-                    label.className = "block text-sm font-medium text-gray-700";
+                    label.className = "block text-sm font-medium text-gray-300 w-full md:w-1/3 lg:w-1/4 xl:w-1/5";
                     label.innerText = field.label;
                     fieldWrapper.appendChild(label);
 
                     const input = document.createElement("input");
                     input.type = field.type;
                     input.name = field.name;
-                    input.className = "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm";
+                    input.className = "mt-1 block w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm md:w-2/3 lg:w-3/4 xl:w-4/5 bg-gray-800 text-white";
                     fieldWrapper.appendChild(input);
 
                     formContainer.appendChild(fieldWrapper);
@@ -96,22 +125,49 @@
 
                 // Mostrar el contenedor del formulario
                 formContainer.classList.remove("hidden");
+                sendButtonContainer.classList.remove("hidden");
             } else {
                 formContainer.innerHTML = `<p class="text-red-500">Categoría no encontrada.</p>`;
                 formContainer.classList.remove("hidden");
+                sendButtonContainer.classList.add("hidden");
             }
         }
 
+        function clearForm() {
+            // Limpiar el selector de referencia
+            document.getElementById("reference").value = "";
+
+            // Limpiar los campos de entrada dentro del contenedor de formulario
+            document.querySelectorAll("#formContainer input").forEach((input) => {
+                input.value = "";
+            });
+        }
+
+
+        function cancelForm() {
+            const formContainer = document.getElementById("formContainer");
+            const sendButtonContainer = document.getElementById("sendButtonContainer");
+            formContainer.classList.add("hidden");
+            sendButtonContainer.classList.add("hidden");
+            formContainer.innerHTML = "";
+        }
+
         function sendDataToSheet() {
-            const reference = document.getElementById("reference").value;
+            const reference = document.getElementById("categoria").value;
             const data = {
                 reference: reference,
                 fields: {}
             };
 
-            // Agregar los valores de los campos al objeto data.fields con sus nombres correspondientes
+            // Agregar el número de referencia al objeto data.fields
+            const numeroReferencia = document.querySelector("input[name='referencia']").value;
+            data.fields["referencia"] = numeroReferencia;
+
+            // Agregar los valores de los otros campos
             document.querySelectorAll("#formContainer input").forEach((input) => {
-                data.fields[input.name] = input.value; // Usar el atributo `name` como clave y el valor ingresado como valor
+                if (input.name !== "referencia") {
+                    data.fields[input.name] = input.value;
+                }
             });
 
             // Enviar los datos al webhook de Make
@@ -122,9 +178,10 @@
             })
             .then(response => {
                 if (response.ok) {
-                    alert("Datos enviados exitosamente.");
+                    console.log("Datos enviados exitosamente.");
+                    clearForm();
                 } else {
-                    alert("Error al enviar los datos.");
+                    console.log("Error al enviar los datos.");
                 }
             })
             .catch(error => {
