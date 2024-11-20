@@ -7,18 +7,23 @@
 <body class="bg-gray-900 h-screen p-4">
   <div class="flex justify-center">
     <div class="w-full max-w-md p-4 bg-gray-800 rounded shadow-md">
-      <h1 class="text-3xl font-bold mb-4 text-white">Resumen</h1>
+      <h1 class="text-3xl font-bold mb-4 text-white">Generar resumen</h1>
       <form>
-        <legend class="text-lg font-bold mb-2 text-white">Introduce la referencia del producto</legend>
+        <!-- <legend class="text-lg font-bold mb-2 text-white">Introduce la referencia del producto</legend> -->
         <div class="mb-4">
-          <input type="text" id="product-reference" name="product-reference" class="block w-full p-2 mb-4 border border-gray-700 rounded">
+          <input type="text" id="product-reference" name="product-reference" placeholder="Referencia del producto" class="mt-1 block w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm md:w-2/3 lg:w-3/4 xl:w-4/5 bg-gray-800 text-white">
         </div>
-        <button type="button" onclick="sendToWebhook()" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded shadow-md transition duration-300 ease-in-out">
+        <button type="button" onclick="sendToWebhook()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded shadow-md transition duration-300 ease-in-out">
             Generar resumen
           </button>
       </form>
+      
       <p id="message" class="text-center text-gray-600"></p>
     </div>
+    
+        <button type="button" onclick="window.location.href='../index.html'" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded shadow-md transition duration-300 ease-in-out">
+            Volver
+          </button>
   </div>
 
   <script>
