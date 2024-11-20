@@ -181,7 +181,7 @@
             })
             .then(response => {
                 if (response.ok) {
-                    console.log("Datos enviados exitosamente.");
+                    alert("Datos enviados exitosamente.");
                     clearForm();
                 } else {
                     console.log("Error al enviar los datos.");
@@ -189,8 +189,12 @@
             })
             .catch(error => {
                 console.error("Error:", error);
-                alert("Error al enviar los datos.");
-            });
+                if (error.response && error.response.statusText) {
+                    alert(`Error al enviar los datos: ${error.response.statusText}`);
+                } else {
+                    alert("Error desconocido");
+                }
+                });
         }
     </script>
 </body>
